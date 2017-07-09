@@ -10,7 +10,13 @@ export function mousePos (event, targetElement) {
   const $targetElement = $(targetElement)
   const parentX = $targetElement.offset().left
   const parentY = $targetElement.offset().top
-  return {x: event.pageX - parentX, y: event.pageY - parentY}
+  let x = event.pageX
+  let y = event.pageY
+  if (event.touches && event.touches.length > 0) {
+    x = event.touches[0].pageX
+    y = event.touches[0].pageY
+  }
+  return {x: x - parentX, y: y - parentY}
 }
 
 // Normalized mouse position [-1, 1].
@@ -56,6 +62,10 @@ export default class InteractionsManager {
     }
     this.interactionInProgress = false
     this.interaction = name
+    if (name !== 'none') {
+      this.setInteractionActive(this.interactions[name], name)
+    }
+    this.view.controls.enableRotate = name === 'none'
   }
 
   getIntersection (mesh) {
@@ -80,19 +90,19 @@ export default class InteractionsManager {
       return
     }
 
-    let anyInteractionActive = false
-    for (let name of Object.keys(this.interactions)) {
-      if (this.interaction !== name) continue
-      const interaction = this.interactions[name]
-      if (!anyInteractionActive && interaction.test()) {
-        this.setInteractionActive(interaction, name)
-        anyInteractionActive = true
-      } else {
-        this.setInteractionInactive(interaction, name)
-      }
-    }
-
-    this.view.controls.enableRotate = !anyInteractionActive
+    // let anyInteractionActive = false
+    // for (let name of Object.keys(this.interactions)) {
+    //   if (this.interaction !== name) continue
+    //   const interaction = this.interactions[name]
+    //   if (!anyInteractionActive && interaction.test()) {
+    //     this.setInteractionActive(interaction, name)
+    //     anyInteractionActive = true
+    //   } else {
+    //     this.setInteractionInactive(interaction, name)
+    //   }
+    // }
+    //
+    // this.view.controls.enableRotate = !anyInteractionActive
   }
 
   setInteractionActive (interaction, name) {
@@ -100,11 +110,13 @@ export default class InteractionsManager {
     interaction.setActive()
     let namespace = `interaction-${name}`
     let $elem = $(this.view.domElement)
+    console.log('yoo')
     $elem.on(`mousedown.${namespace} touchstart.${namespace}`, () => {
       this.interactionInProgress = true
       if (interaction.onMouseDown) {
         interaction.onMouseDown()
       }
+      console.log('yeaaa')
     })
     $elem.on(`mousemove.${namespace} touchmove.${namespace}`, () => {
       if (interaction.onMouseMove && this.interactionInProgress) {
@@ -132,6 +144,6 @@ export default class InteractionsManager {
       this.mouse.x = pos.x
       this.mouse.y = pos.y
     }
-    $(this.view.domElement).on('mousemove touchmove', onMouseMove)
+    $(this.view.domElement).on('mousemove touchstart touchmove touchend', onMouseMove)
   }
 }

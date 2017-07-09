@@ -1,24 +1,45 @@
 .plates {
   height: 100%;
 
-  .plates-3d-view {
-    &.full {
-      // ~"..." is a way to escape Less processing. Otherwise, Less compiles it to calc(40%)...
-      // 60px for bottom panel.
-      height: calc(~"100% - 60px");
+  @media (min-width: 530px) {
+    .plates-3d-view {
+      &.full {
+        // ~"..." is a way to escape Less processing. Otherwise, Less compiles it to calc(40%)...
+        // 60px for bottom panel.
+        height: calc(~"100% - 60px");
+      }
+      &.small {
+        // 250px for cross section view and 60px for bottom panel.
+        height: calc(~"100% - 310px");
+      }
     }
-    &.small {
-      // 250px for cross section view and 60px for bottom panel.
-      height: calc(~"100% - 310px");
+    .bottom-panel {
+      height: 60px;
+    }
+  }
+  @media (max-width: 530px) {
+    .plates-3d-view {
+      &.full {
+        // ~"..." is a way to escape Less processing. Otherwise, Less compiles it to calc(40%)...
+        // 90px for bottom panel.
+        height: calc(~"100% - 90px");
+      }
+      &.small {
+        // 250px for cross section view and 90px for bottom panel.
+        height: calc(~"100% - 340px");
+      }
+    }
+    .bottom-panel {
+      height: 90px;
+      font-size: 0.8em;
+    }
+    .cross-section-switch {
+      display: block;
     }
   }
 
   .cross-section {
     height: 230px;
-  }
-
-  .bottom-panel {
-    height: 60px;
   }
 
   .benchmark {
