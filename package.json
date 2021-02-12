@@ -62,7 +62,7 @@
     "d3-interpolate": "^1.3.2",
     "d3-scale": "^1.0.7",
     "eventemitter2": "^4.1.0",
-    "firebase": "^5.8.4",
+    "firebase": "^8.2.6",
     "jquery": "^3.4.1",
     "kd-tree-javascript": "^1.0.3",
     "lodash": "^4.17.11",
@@ -78,7 +78,7 @@
     "screenfull": "^4.0.1",
     "seedrandom": "^2.4.4",
     "shutterbug": "^1.1.0",
-    "three": "^0.102.0",
+    "three": "^0.125.2",
     "timeseries-analysis": "^1.0.12",
     "uuid": "^3.3.2"
   },
