@@ -28,10 +28,11 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              modules: {
+                localIdentName: '[name]--[local]--[hash:base64:8]'
+              },
               sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]--[local]--[hash:base64:8]'
+              importLoaders: 1
             }
           },
           'postcss-loader' // has separate config, see postcss.config.js nearby
@@ -53,10 +54,11 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              modules: {
+                localIdentName: '[name]--[local]--tectonic-explorer'
+              },
               sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]--[local]--tectonic-explorer'
+              importLoaders: 1
             }
           },
           'less-loader'
@@ -109,9 +111,9 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
-    new CopyWebpackPlugin([
-      { from: 'public' }
-    ])
+    new CopyWebpackPlugin({ 
+      patterns: [{ from: 'public' }]
+    })
   ]
 }
 
